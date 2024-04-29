@@ -4,6 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JS AJAX</title>
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 5px;
+      }
+    </style>
   </head>
   <body>
     <h2>Data Kepemilikan Buku</h2>
@@ -21,6 +33,10 @@
         <span id="A3"></span>
       </p>
       <button onclick="loadDoc()">Get data</button>
+      <button onclick="createTable()">Get data book</button>
+      <div>
+        <table id="cdTable"></table>
+      </div>
     </div>
 
     <script>
@@ -37,6 +53,24 @@
         };
         xhttp.open("GET", "data.json", true);
         xhttp.send();
+      }
+
+      function createTable() {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function () {
+          const jsonData = JSON.parse(this.responseText);
+          createTable(jsonData); // Call new function to create table
+        };
+        xhttp.open("GET", "dataBuku.json", true);
+        xhttp.send();
+      }
+      // New function to create the table
+      function createTable(data) {
+        let table = "<tr><th>Artist</th><th>Title</th></tr>";
+        for (let i = 0; i < data.length; i++) {
+          table += "<tr><td>" + data[i].artist + "</td><td>" + data[i].title + "</td></tr>";
+        }
+        document.getElementById("cdTable").innerHTML = table;
       }
     </script>
   </body>
